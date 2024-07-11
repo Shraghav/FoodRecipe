@@ -7,7 +7,7 @@ class RecipeView {
     render(data) {
         this.#data = data;
         const markup = this.#generateMarkup();
-        this.#clear();
+        // this.#clear();
         this.#parentElement.insertAdjacentHTML('afterbegin', markup);
     }
 
@@ -17,7 +17,7 @@ class RecipeView {
 
     renderSpinner = () => {
         const markup = `
-   <div class="spinner">
+        <div class="spinner">
           <svg>
             <use href="${icons}#icon-loader"></use>
           </svg>
@@ -27,7 +27,6 @@ class RecipeView {
         this.#parentElement.insertAdjacentHTML('afterbegin', markup);
     }
     #generateMarkup() {
-        console.log(this.#data);
         return `
      <figure class="recipe__fig">
           <img src="${this.#data.image}" alt="${this.#data.title}" class="recipe__img" />
