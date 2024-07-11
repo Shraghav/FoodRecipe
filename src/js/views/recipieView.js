@@ -118,7 +118,13 @@ class RecipeView {
             </div>
         </li>
         `
-    }
+  }
+  addHandlerRender(handler) {
+    const loadEvent = ['hashchange', 'load']
+    loadEvent.forEach(ev => {
+      window.addEventListener(ev, handler);
+    })
+  }
 }
 
 //here we are exporting with the object instead of exporting and creating objects separately
