@@ -23,8 +23,10 @@ const controlRecipe = async () => {
     await model.loadRecipe(id);
     //2) rendering recipe
     recipieView.render(model.state.recipe);
-  } catch (error) {
-    console.log(error);
+  }
+  catch (error) {
+    console.log(`Oops....${error}`);
+    recipieView.renderError(error)
   }
 }
 

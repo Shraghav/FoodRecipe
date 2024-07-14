@@ -2,8 +2,9 @@ import icons from 'url:../../img/icons.svg';
 import {Fraction} from 'fractional'
 
 class RecipeView {
-    #parentElement = document.querySelector('.recipe');
-    #data;
+  #parentElement = document.querySelector('.recipe');
+  #data;
+  #errorMessage = "Nothing is found. Try again";
     render(data) {
         this.#data = data;
         const markup = this.#generateMarkup();
@@ -23,8 +24,8 @@ class RecipeView {
           </svg>
         </div>
   `
-        this.#parentElement.innerHTML = "";
-        this.#parentElement.insertAdjacentHTML('afterbegin', markup);
+      this.#clear();
+      this.#parentElement.insertAdjacentHTML('afterbegin', markup);
     }
     #generateMarkup() {
         return `
@@ -118,6 +119,21 @@ class RecipeView {
             </div>
         </li>
         `
+  }
+  renderError(message = this.#errorMessage) {
+    const markup = `
+    <div class="error">
+            <div>
+              <svg>
+                <use href=${icons}#icon-alert-triangle"></use>
+              </svg>
+            </div>
+            <p>${message}</p>
+          </div>
+    `
+    console.log("Error");
+    this.#clear();
+    this.#parentElement.insertAdjacentHTML('afterbegin', markup);
   }
   addHandlerRender(handler) {
     const loadEvent = ['hashchange', 'load']
