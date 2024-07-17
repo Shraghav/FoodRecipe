@@ -5,6 +5,7 @@ const recipeContainer = document.querySelector('.recipe');
 import * as model from './model.js'
 import recipieView from './views/recipieView.js';
 import searchView from './views/searchView.js';
+import resultsView from './views/resultsView.js';
 const timeout = function (s) {
   return new Promise(function (_, reject) {
     setTimeout(function () {
@@ -23,6 +24,7 @@ const controlRecipe = async () => {
     //1) Loading recipe
     await model.loadRecipe(id);
     //2) rendering recipe
+    console.log(model.state.recipe);
     recipieView.render(model.state.recipe);
   }
   catch (error) {
@@ -33,6 +35,7 @@ const controlRecipe = async () => {
 
 const controlSearchResults = async () => {
   try {
+    // resultsView.renderSpinner();
     //1) get search
     const query = searchView.getQuery();
     if (!query) return;
@@ -41,7 +44,8 @@ const controlSearchResults = async () => {
     await model.loadSearchResult(query);
 
     //3) render resut
-    console.log(model.state.search.results);
+    // console.log(model.state.search.results);
+    resultsView.render(model.state.search.results)
 
   } catch (error) {
     console.log(error);

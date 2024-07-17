@@ -1,7 +1,6 @@
 import { API_URL } from './config'
 import { getJson } from './helpers';
 
-
 export const state = {
     recipe: {},
     search: {
@@ -34,7 +33,6 @@ export const loadSearchResult = async (query) => {
     try {
         state.search.query = query;
         const data = await getJson(`${API_URL}?search=${query}`)
-        
         state.search.results=data.data.recipes.map(rec => {
             return {
                 id: rec.id,
@@ -47,4 +45,3 @@ export const loadSearchResult = async (query) => {
         throw error;
     }
 }
-loadSearchResult('pizza')
