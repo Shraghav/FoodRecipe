@@ -6,6 +6,7 @@ import * as model from './model.js'
 import recipieView from './views/recipieView.js';
 import searchView from './views/searchView.js';
 import resultsView from './views/resultsView.js';
+import PaginationView from './views/paginationView.js';
 const timeout = function (s) {
   return new Promise(function (_, reject) {
     setTimeout(function () {
@@ -32,7 +33,7 @@ const controlRecipe = async () => {
     recipieView.renderError(error)
   }
 }
-
+//search results
 const controlSearchResults = async () => {
   try {
     // resultsView.renderSpinner();
@@ -44,17 +45,27 @@ const controlSearchResults = async () => {
     await model.loadSearchResult(query);
 
     //3) render resut
-    // console.log(model.state.search.results);
-    resultsView.render(model.state.search.results)
+    resultsView.render(model.getSearchResultsPage(1));
+
+    //4) Initial pagination
+    PaginationView.render(model.state.search)
 
   } catch (error) {
     console.log(error);
   }
 }
 
+const controlPagination = function (gotoPage) {
+  //render new results
+  resultsView.render(model.getSearchResultsPage(gotoPage));
+  console.log(gotoPage);
+  // //rennder new pagination buttons
+  PaginationView.render(model.state.search)
+}
 
 const init = function () {
   recipieView.addHandlerRender(controlRecipe);
   searchView.addHandlerSearch(controlSearchResults);
+  PaginationView.addHandlerClick(controlPagination);
 }
 init();
