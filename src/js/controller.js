@@ -6,6 +6,7 @@ import * as model from './model.js'
 import recipieView from './views/recipieView.js';
 import searchView from './views/searchView.js';
 import resultsView from './views/resultsView.js';
+import bookmarkView from './views/bookmarkView.js';
 import PaginationView from './views/paginationView.js';
 const timeout = function (s) {
   return new Promise(function (_, reject) {
@@ -31,10 +32,13 @@ const controlRecipe = async () => {
 
     //2) rendering recipe
     recipieView.render(model.state.recipe);
+
+    //3) update bookmarks view
+    bookmarkView.update(model.state.bookmarks)
   }
   catch (error) {
     console.log(`Oops....${error}`);
-    recipieView.renderError(error)
+    recipieView.renderError()
   }
 }
 //search results
@@ -74,10 +78,28 @@ const controlServings = (newServings) => {
   // update recipeView
   recipieView.update(model.state.recipe)
 }
+
+const controlAddBookmark = () => {
+  //1) Add or remove bookmarks
+  if (!model.state.recipe.bookmarked) model.addBookmark(model.state.recipe);
+  else model.deleteBookmark(model.state.recipe.id);
+
+  //2) Update recipeView
+  recipieView.update(model.state.recipe);
+
+  //3) Render bookmarks
+  bookmarkView.render(model.state.bookmarks)
+}
+
+const controlBookmarks = () => {
+  bookmarkView.render(model.state.bookmarks)
+}
 const init = function () {
+  bookmarkView.addHandlerRender(controlBookmarks)
   recipieView.addHandlerRender(controlRecipe);
   recipieView.addHandlerUpdateServings(controlServings);
   searchView.addHandlerSearch(controlSearchResults);
   PaginationView.addHandlerClick(controlPagination);
+  recipieView.addHandlerBookmark(controlAddBookmark);
 }
 init();
