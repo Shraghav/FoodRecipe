@@ -22,11 +22,14 @@ const controlRecipe = async () => {
     const id = window.location.hash.slice(1);
     if (!id) return;
     recipieView.renderSpinner(recipeContainer);
+
+    //0) update results (mark selected serach)
+    resultsView.update(model.getSearchResultsPage())
+
     //1) Loading recipe
     await model.loadRecipe(id);
 
     //2) rendering recipe
-    // console.log(model.state.recipe);
     recipieView.render(model.state.recipe);
   }
   catch (error) {
@@ -69,7 +72,7 @@ const controlServings = (newServings) => {
   model.updateServings(newServings);
  
   // update recipeView
-  recipieView.render(model.state.recipe)
+  recipieView.update(model.state.recipe)
 }
 const init = function () {
   recipieView.addHandlerRender(controlRecipe);
