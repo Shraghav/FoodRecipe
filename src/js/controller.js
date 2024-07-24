@@ -8,6 +8,7 @@ import searchView from './views/searchView.js';
 import resultsView from './views/resultsView.js';
 import bookmarkView from './views/bookmarkView.js';
 import PaginationView from './views/paginationView.js';
+import addRecipeView from './views/addRecipeView.js';
 const timeout = function (s) {
   return new Promise(function (_, reject) {
     setTimeout(function () {
@@ -91,6 +92,11 @@ const controlAddBookmark = () => {
   bookmarkView.render(model.state.bookmarks)
 }
 
+const controlAddRecipe = (newRecipe)=>{
+  console.log(newRecipe);
+
+  //uploading new recipe data
+}
 const controlBookmarks = () => {
   bookmarkView.render(model.state.bookmarks)
 }
@@ -101,5 +107,6 @@ const init = function () {
   searchView.addHandlerSearch(controlSearchResults);
   PaginationView.addHandlerClick(controlPagination);
   recipieView.addHandlerBookmark(controlAddBookmark);
+  addRecipeView.addHandlerUpload(controlAddRecipe);
 }
 init();
