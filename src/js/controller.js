@@ -9,6 +9,8 @@ import resultsView from './views/resultsView.js';
 import bookmarkView from './views/bookmarkView.js';
 import PaginationView from './views/paginationView.js';
 import addRecipeView from './views/addRecipeView.js';
+
+import { MODAL_CLOSE } from './config.js';
 const timeout = function (s) {
   return new Promise(function (_, reject) {
     setTimeout(function () {
@@ -92,10 +94,30 @@ const controlAddBookmark = () => {
   bookmarkView.render(model.state.bookmarks)
 }
 
-const controlAddRecipe = (newRecipe)=>{
-  console.log(newRecipe);
+const controlAddRecipe = async(newRecipe) => {
+  try {
+    //spinner
+    addRecipeView.renderSpinner();
+    //uploading new recipe data
+    await model.uploadRecipe(newRecipe);
+    console.log(model.state.recipe);
 
-  //uploading new recipe data
+    //render recipe
+    recipieView.render(model.state.recipe);
+
+    //success message
+    addRecipeView.renderMessage();
+
+    //closing form
+    setTimeout(function () {
+      addRecipeView.toggleWindow()
+    },MODAL_CLOSE*1000)
+  }
+  catch (err) {
+    console.error("Error dude", err);
+    addRecipeView.renderError(err.message);
+  }
+  
 }
 const controlBookmarks = () => {
   bookmarkView.render(model.state.bookmarks)

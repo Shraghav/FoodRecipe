@@ -1,5 +1,5 @@
-import { API_URL,RESULTS_PER_PAGE } from './config'
-import { getJson } from './helpers';
+import { API_URL,KEY,RESULTS_PER_PAGE } from './config'
+import { getJson,setJSON } from './helpers';
 
 export const state = {
     recipe: {},
@@ -12,28 +12,32 @@ export const state = {
     bookmarks: []
 }
 
+const createRecipeObj = (data) => {
+    const { recipe } = data.data;
+    return {
+        id: recipe.id,
+        title: recipe.title,
+        cookingTime: recipe.cooking_time,
+        publisher: recipe.publisher,
+        sourceUrl: recipe.source_url,
+        image: recipe.image_url,
+        servings: recipe.servings,
+        ingredients: recipe.ingredients,
+        ...(recipe.key && {key: recipe.key})
+    };
+}
 export const loadRecipe = async function (id) {
     try {
         const data = await getJson(`${API_URL}/${id}`);
-        const { recipe } = data.data;
-        console.log(recipe);
-        state.recipe = {
-            id: recipe.id,
-            title: recipe.title,
-            cookingTime: recipe.cooking_time,
-            publisher: recipe.publisher,
-            sourceURL: recipe.source_url,
-            image: recipe.image_url,
-            servings: recipe.servings,
-            ingredients: recipe.ingredients,
-        };
+        // console.log(recipe);
+        state.recipe = createRecipeObj(data);
         if (state.bookmarks.some(bookmark => bookmark.id === id)) {
             state.recipe.bookmarked = true;
         }
         else {
             state.recipe.bookmarked = false;
         }
-        console.log(state.recipe);
+        // console.log(state.recipe);
     } catch (error) {
         throw error;
     }
@@ -110,3 +114,39 @@ const clearBookmarks = function () {
     localStorage.clear('bookmarks')
 }
 // clearBookmarks()
+
+export const uploadRecipe = async (newRecipe) => {
+    // console.log(Object.entries(newRecipe));
+    try {
+        const ingredients = Object.entries(newRecipe).filter(entry =>
+            entry[0].startsWith('ingredient') && entry[1] != ''
+        ).map(ing => {
+            const ingArray = ing[1].replaceAll(' ', '').split(',');
+            if (ingArray.length != 3) {
+                throw new Error('Wrong ingredient! Please use correct format as mentioned')
+            }
+            const [quantity, unit, description] = ingArray
+            return { quantity: quantity ? +quantity : null, unit, description };
+        })
+        // console.log(ingredients);
+        //will be uploaded 
+        const recipe = {
+            //sourceURL: recipe.source_url,
+            title: newRecipe.title,
+            source_url: newRecipe.sourceUrl,
+            image_url: newRecipe.image,
+            publisher: newRecipe.publisher,
+            cooking_time: +newRecipe.cookingTime,
+            servings: +newRecipe.servings,
+            ingredients
+        }
+        console.log(recipe);
+        const data = await setJSON(`${API_URL}?key=${KEY}`, recipe);
+        state.recipe = createRecipeObj(data);
+        addBookmark(state.recipe)
+    }
+    catch (err) {
+        throw err;
+    }
+}
+//241a33d1-e499-4868-8ce0-fa6f3d72b827

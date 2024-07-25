@@ -22,3 +22,24 @@ export const getJson = async (url) => {
     }
     
 }
+export const setJSON = async (url,uploadData) => {
+    try {
+        const res = await Promise.race([fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(uploadData)
+        }), timeout(TIMEOUT_SECONDS)]);
+        const data = await res.json();
+
+        if (!res.ok) {
+            throw new Error(`${data.message}`)
+        }
+        return data;
+    }
+    catch (error) {
+        throw error;
+    }
+    
+}
