@@ -42,14 +42,17 @@ class RecipeView extends View {
             </div>
           </div>
 
-          <div class="recipe__user-generated">
-          </div>
-          <button class="btn--round btn--bookmark">
-            <svg class="">
-              <use href="${icons}#icon-bookmark${this._data.bookmarked ? '-fill':''}"></use>
-            </svg>
-          </button>
+        <div class="recipe__user-generated ${this._data.key ? '' : 'hidden'}">
+          <svg>
+            <use href="${icons}#icon-user"></use>
+          </svg>
         </div>
+        <button class="btn--round btn--bookmark">
+          <svg class="">
+            <use href="${icons}#icon-bookmark${this._data.bookmarked ? '-fill' : ''}"></use>
+          </svg>
+        </button>
+      </div>
 
         <div class="recipe__ingredients">
           <h2 class="heading--2">Recipe ingredients</h2>
@@ -105,7 +108,6 @@ class RecipeView extends View {
   addHandlerUpdateServings(handler) {
     this._parentElement.addEventListener('click', function (e) {
       const btn = e.target.closest('.btn--update-servings');
-      console.log(btn);
       if (!btn) return;
       const updateTo = +btn.dataset.updateTo;
       

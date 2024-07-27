@@ -108,6 +108,11 @@ const controlAddRecipe = async(newRecipe) => {
     //success message
     addRecipeView.renderMessage();
 
+    //render bookmark view
+    bookmarkView.render(model.state.bookmarks);
+
+    //changeId in url
+    window.history.pushState(null, '', `#${model.state.recipe.id}`);
     //closing form
     setTimeout(function () {
       addRecipeView.toggleWindow()

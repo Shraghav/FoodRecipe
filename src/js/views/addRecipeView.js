@@ -2,11 +2,13 @@ import View from "./View";
 import icons from 'url:../../img/icons.svg';
 class AddRecipeView extends View {
     _parentElement = document.querySelector('.upload');
+    _message = "Recipe was successfully uploaded";
+    
     _window = document.querySelector('.add-recipe-window');
     _overlay = document.querySelector('.overlay');
-    _btnOpen = document.querySelector('.nav__btn--add-recipe')
-    _btnClose = document.querySelector('.btn--close-modal')
-
+    _btnOpen = document.querySelector('.nav__btn--add-recipe');
+    _btnClose = document.querySelector('.btn--close-modal');
+    
     constructor() {
         super();
         this._addHandlerShowWindow();
@@ -31,29 +33,6 @@ class AddRecipeView extends View {
             const data = Object.fromEntries(dataArray);
             handler(data);
         })
-    }
-    _generateMarkup() {
-        
-    }
-    #generatePreButton(currentPage) {
-        return `
-            <button data-goto="${currentPage - 1}" class="btn--inline pagination__btn--prev">
-            <svg class="search__icon">
-              <use href="${icons}#icon-arrow-left"></use>
-            </svg>
-            <span>Page ${currentPage - 1}</span>
-          </button>
-            `
-    }
-    #generatePostButton(currentPage) {
-        return `
-            <button data-goto="${currentPage + 1}" class="btn--inline pagination__btn--next">
-            <svg class="search__icon">
-              <use href="${icons}#icon-arrow-right"></use>
-            </svg>
-            <span>Page ${currentPage + 1}</span>
-          </button>
-            `
     }
 }
 
