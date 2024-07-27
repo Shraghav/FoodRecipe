@@ -5,6 +5,7 @@ class RecipeView extends View {
   _parentElement = document.querySelector('.recipe');
   _errorMessage = "Nothing is found. Try again";
   _generateMarkup() {
+    console.log(this._data);
         return `
      <figure class="recipe__fig">
           <img src="${this._data.image}" alt="${this._data.title}" class="recipe__img" />
@@ -72,7 +73,7 @@ class RecipeView extends View {
           </p>
           <a
             class="btn--small recipe__btn"
-            href="${this._data.sourceURL}"
+            href="${this._data.sourceUrl}"
             target="_blank"
           >
             <span>Directions</span>
