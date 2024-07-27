@@ -2,15 +2,17 @@
   "name": "fooddetails",
   "version": "1.0.0",
   "description": "Recipie application",
+  "default": "index.html",
   "scripts": {
     "start": "parcel index.html",
-    "build": "parcel build index.html"
+    "build": "parcel build index.html --dist-dir ./dist"
   },
   "author": "Harish Raghavan",
   "license": "ISC",
   "devDependencies": {
     "@parcel/transformer-sass": "^2.12.0",
-    "parcel": "^2.12.0"
+    "parcel": "^2.12.0",
+    "url": "^0.11.3"
   },
   "dependencies": {
     "core-js": "^3.37.1",
