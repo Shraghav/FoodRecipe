@@ -602,15 +602,10 @@ var _addRecipeViewJs = require("./views/addRecipeView.js");
 var _addRecipeViewJsDefault = parcelHelpers.interopDefault(_addRecipeViewJs);
 var _configJs = require("./config.js");
 const recipeContainer = document.querySelector(".recipe");
-const timeout = function(s) {
-    return new Promise(function(_, reject) {
-        setTimeout(function() {
-            reject(new Error(`Request took too long! Timeout after ${s} second`));
-        }, s * 1000);
-    });
-};
-// https://forkify-api.herokuapp.com/v2
-const controlRecipe = async ()=>{
+// Documentation : https://forkify-api.herokuapp.com/v2
+/**
+ * @returns recipeView and resultView after getting data from model and updating bookmarks
+ */ const controlRecipe = async ()=>{
     try {
         const id = window.location.hash.slice(1);
         if (!id) return;
@@ -628,10 +623,10 @@ const controlRecipe = async ()=>{
         (0, _recipieViewJsDefault.default).renderError();
     }
 };
-//search results
-const controlSearchResults = async ()=>{
+/**
+ * @returns searched results with query specified along with pagination (specific recipe)
+ */ const controlSearchResults = async ()=>{
     try {
-        // resultsView.renderSpinner();
         //1) get search
         const query = (0, _searchViewJsDefault.default).getQuery();
         if (!query) return;
@@ -645,34 +640,42 @@ const controlSearchResults = async ()=>{
         console.log(error);
     }
 };
-const controlPagination = function(gotoPage) {
+/**
+ * @param {*} gotoPage specifies page (keeps changing)
+ */ const controlPagination = function(gotoPage) {
     //render new results
     (0, _resultsViewJsDefault.default).render(_modelJs.getSearchResultsPage(gotoPage));
-    // //rennder new pagination buttons
+    //rennder new pagination buttons
     (0, _paginationViewJsDefault.default).render(_modelJs.state.search);
 };
-const controlServings = (newServings)=>{
+/**
+ * @param {*} newServings servings can be updated dynamically
+ * @function updateServings - will update only changed attributes from previous state
+ */ const controlServings = (newServings)=>{
     //update recipe servings (in state)
     _modelJs.updateServings(newServings);
     // update recipeView
     (0, _recipieViewJsDefault.default).update(_modelJs.state.recipe);
 };
-const controlAddBookmark = ()=>{
+/**
+ * @returns bookmarked recipes (just displays)
+ */ const controlAddBookmark = ()=>{
     //1) Add or remove bookmarks
     if (!_modelJs.state.recipe.bookmarked) _modelJs.addBookmark(_modelJs.state.recipe);
     else _modelJs.deleteBookmark(_modelJs.state.recipe.id);
     //2) Update recipeView
     (0, _recipieViewJsDefault.default).update(_modelJs.state.recipe);
     //3) Render bookmarks
-    (0, _bookmarkViewJsDefault.default).render(_modelJs.state.bookmarks);
+    (0, _bookmarkViewJsDefault.default).update(_modelJs.state.bookmarks);
 };
-const controlAddRecipe = async (newRecipe)=>{
+/**
+ * @param {*} newRecipe coming from addRecipeView Handler
+ */ const controlAddRecipe = async (newRecipe)=>{
     try {
         //spinner
         (0, _addRecipeViewJsDefault.default).renderSpinner();
         //uploading new recipe data
         await _modelJs.uploadRecipe(newRecipe);
-        console.log(_modelJs.state.recipe);
         //render recipe
         (0, _recipieViewJsDefault.default).render(_modelJs.state.recipe);
         //success message
@@ -2656,14 +2659,13 @@ const uploadRecipe = async (newRecipe)=>{
             servings: +newRecipe.servings,
             ingredients
         };
-        console.log(recipe);
         const data = await (0, _helpers.setJSON)(`${(0, _config.API_URL)}?key=${(0, _config.KEY)}`, recipe);
         state.recipe = createRecipeObj(data);
         addBookmark(state.recipe);
     } catch (err) {
         throw err;
     }
-} //241a33d1-e499-4868-8ce0-fa6f3d72b827
+} //key : 241a33d1-e499-4868-8ce0-fa6f3d72b827
 ;
 
 },{"./config":"k5Hzs","./helpers":"hGI1E","@parcel/transformer-js/src/esmodule-helpers.js":"gkKU3"}],"k5Hzs":[function(require,module,exports) {

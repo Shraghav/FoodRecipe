@@ -8,6 +8,10 @@ class SearchView {
     _clearInput() {
         return this._parentEl.querySelector('.search__field').value = ' ';
     }
+    /**
+     * 
+     * @param {*} handler shows thhe results after the button is clicked
+     */
     addHandlerSearch(handler) {
         this._parentEl.addEventListener('submit', function (e) {
             e.preventDefault();

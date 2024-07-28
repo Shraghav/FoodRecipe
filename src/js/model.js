@@ -26,6 +26,7 @@ const createRecipeObj = (data) => {
         ...(recipe.key && {key: recipe.key})
     };
 }
+
 export const loadRecipe = async function (id) {
     try {
         const data = await getJson(`${API_URL}/${id}?key=${KEY}`);
@@ -141,7 +142,6 @@ export const uploadRecipe = async (newRecipe) => {
             servings: +newRecipe.servings,
             ingredients
         }
-        console.log(recipe);
         const data = await setJSON(`${API_URL}?key=${KEY}`, recipe);
         state.recipe = createRecipeObj(data);
         addBookmark(state.recipe)
@@ -150,4 +150,4 @@ export const uploadRecipe = async (newRecipe) => {
         throw err;
     }
 }
-//241a33d1-e499-4868-8ce0-fa6f3d72b827
+//key : 241a33d1-e499-4868-8ce0-fa6f3d72b827

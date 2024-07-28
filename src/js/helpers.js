@@ -8,6 +8,11 @@ const timeout = function (s) {
     });
 };
 
+/**
+ * 
+ * @param {*} url -> required url to fetch
+ * @returns the required data
+ */
 export const getJson = async (url) => {
     try {
         const res = await Promise.race([fetch(url), timeout(TIMEOUT_SECONDS)]);
@@ -22,6 +27,13 @@ export const getJson = async (url) => {
     }
     
 }
+
+/**
+ * 
+ * @param {*} url required url to upload the data
+ * @param {*} uploadData the data to be uploaded
+ * @returns the recipe we added
+ */
 export const setJSON = async (url,uploadData) => {
     try {
         const res = await Promise.race([fetch(url, {
@@ -43,12 +55,18 @@ export const setJSON = async (url,uploadData) => {
     }
     
 }
+
+/**
+ * 
+ * @param {*} amount the smount includes decimal points
+ * @returns fraction value of amount
+ */
 export const numberToFraction = function (amount) {
     // This is a whole number and doesn't need modification.
     if (parseFloat(amount) === parseInt(amount)) {
         return amount;
     }
-    // Next 12 lines are cribbed from https://stackoverflow.com/a/23575406.
+
     const gcd = function (a, b) {
         if (b < 0.0000001) {
             return a;

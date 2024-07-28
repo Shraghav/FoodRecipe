@@ -11,16 +11,11 @@ import PaginationView from './views/paginationView.js';
 import addRecipeView from './views/addRecipeView.js';
 
 import { MODAL_CLOSE } from './config.js';
-const timeout = function (s) {
-  return new Promise(function (_, reject) {
-    setTimeout(function () {
-      reject(new Error(`Request took too long! Timeout after ${s} second`));
-    }, s * 1000);
-  });
-};
 
-// https://forkify-api.herokuapp.com/v2
-
+// Documentation : https://forkify-api.herokuapp.com/v2
+/**
+ * @returns recipeView and resultView after getting data from model and updating bookmarks
+ */
 const controlRecipe = async () => {
   try {
     const id = window.location.hash.slice(1);
@@ -44,10 +39,12 @@ const controlRecipe = async () => {
     recipieView.renderError()
   }
 }
-//search results
+
+/**
+ * @returns searched results with query specified along with pagination (specific recipe)
+ */
 const controlSearchResults = async () => {
   try {
-    // resultsView.renderSpinner();
     //1) get search
     const query = searchView.getQuery();
     if (!query) return;
@@ -66,22 +63,32 @@ const controlSearchResults = async () => {
   }
 }
 
+/**
+ * @param {*} gotoPage specifies page (keeps changing)
+ */
 const controlPagination = function (gotoPage) {
   //render new results
   resultsView.render(model.getSearchResultsPage(gotoPage));
   
-  // //rennder new pagination buttons
+  //rennder new pagination buttons
   PaginationView.render(model.state.search)
 }
 
+/**
+ * @param {*} newServings servings can be updated dynamically
+ * @function updateServings - will update only changed attributes from previous state
+ */
 const controlServings = (newServings) => {
   //update recipe servings (in state)
   model.updateServings(newServings);
- 
+
   // update recipeView
   recipieView.update(model.state.recipe)
 }
 
+/**
+ * @returns bookmarked recipes (just displays)
+ */
 const controlAddBookmark = () => {
   //1) Add or remove bookmarks
   if (!model.state.recipe.bookmarked) model.addBookmark(model.state.recipe);
@@ -91,16 +98,19 @@ const controlAddBookmark = () => {
   recipieView.update(model.state.recipe);
 
   //3) Render bookmarks
-  bookmarkView.render(model.state.bookmarks)
+  bookmarkView.update(model.state.bookmarks)
 }
 
+/**
+ * @param {*} newRecipe coming from addRecipeView Handler
+ */
 const controlAddRecipe = async(newRecipe) => {
   try {
     //spinner
     addRecipeView.renderSpinner();
+
     //uploading new recipe data
     await model.uploadRecipe(newRecipe);
-    console.log(model.state.recipe);
 
     //render recipe
     recipieView.render(model.state.recipe);
@@ -113,6 +123,7 @@ const controlAddRecipe = async(newRecipe) => {
 
     //changeId in url
     window.history.pushState(null, '', `#${model.state.recipe.id}`);
+
     //closing form
     setTimeout(function () {
       addRecipeView.toggleWindow()
@@ -122,11 +133,12 @@ const controlAddRecipe = async(newRecipe) => {
     console.error("Error dude", err);
     addRecipeView.renderError(err.message);
   }
-  
 }
+
 const controlBookmarks = () => {
   bookmarkView.render(model.state.bookmarks)
 }
+
 const init = function () {
   bookmarkView.addHandlerRender(controlBookmarks)
   recipieView.addHandlerRender(controlRecipe);

@@ -25,6 +25,10 @@ class AddRecipeView extends View {
         this._btnClose.addEventListener('click', this.toggleWindow.bind(this))
         this._overlay.addEventListener('click', this.toggleWindow.bind(this))
     }
+    /**
+     * 
+     * @param {*} handler comes from controllers function for adding recipe
+     */
     addHandlerUpload(handler) {
         this._parentElement.addEventListener('submit', (e) => {
             e.preventDefault();

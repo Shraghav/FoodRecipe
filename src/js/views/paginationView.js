@@ -46,6 +46,11 @@ class PaginationView extends View {
           </button>
             `
     }
+
+/**
+ * 
+ * @param {*} handler comes from controller for pagination
+ */
     addHandlerClick(handler) {
         this._parentElement.addEventListener('click', function (e) {
             //closts looks for parents

@@ -117,6 +117,10 @@ class RecipeView extends View {
     })
   }
 
+/**
+ * 
+ * @param {*} handler handling bookmarks from controller
+ */
   addHandlerBookmark(handler) {
     this._parentElement.addEventListener('click', (e) => {
       const btn = e.target.closest('.btn--bookmark');
