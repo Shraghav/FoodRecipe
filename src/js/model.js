@@ -117,37 +117,37 @@ const clearBookmarks = function () {
 }
 // clearBookmarks()
 
-export const uploadRecipe = async (newRecipe) => {
-    // console.log(Object.entries(newRecipe));
-    try {
-        const ingredients = Object.entries(newRecipe).filter(entry =>
-            entry[0].startsWith('ingredient') && entry[1] != ''
-        ).map(ing => {
-            const ingArray = ing[1].split(',').map(el => el.trim());
-            if (ingArray.length != 3) {
-                throw new Error('Wrong ingredient! Please use correct format as mentioned')
-            }
-            const [quantity, unit, description] = ingArray
-            return { quantity: quantity ? +quantity : null, unit, description };
-        })
-        // console.log(ingredients);
-        //will be uploaded 
-        const recipe = {
-            //sourceURL: recipe.source_url,
-            title: newRecipe.title,
-            source_url: newRecipe.sourceUrl,
-            image_url: newRecipe.image,
-            publisher: newRecipe.publisher,
-            cooking_time: +newRecipe.cookingTime,
-            servings: +newRecipe.servings,
-            ingredients
-        }
-        const data = await setJSON(`${API_URL}?key=${KEY}`, recipe);
-        state.recipe = createRecipeObj(data);
-        addBookmark(state.recipe)
-    }
-    catch (err) {
-        throw err;
-    }
-}
+// export const uploadRecipe = async (newRecipe) => {
+//     // console.log(Object.entries(newRecipe));
+//     try {
+//         const ingredients = Object.entries(newRecipe).filter(entry =>
+//             entry[0].startsWith('ingredient') && entry[1] != ''
+//         ).map(ing => {
+//             const ingArray = ing[1].split(',').map(el => el.trim());
+//             if (ingArray.length != 3) {
+//                 throw new Error('Wrong ingredient! Please use correct format as mentioned')
+//             }
+//             const [quantity, unit, description] = ingArray
+//             return { quantity: quantity ? +quantity : null, unit, description };
+//         })
+//         // console.log(ingredients);
+//         //will be uploaded 
+//         const recipe = {
+//             //sourceURL: recipe.source_url,
+//             title: newRecipe.title,
+//             source_url: newRecipe.sourceUrl,
+//             image_url: newRecipe.image,
+//             publisher: newRecipe.publisher,
+//             cooking_time: +newRecipe.cookingTime,
+//             servings: +newRecipe.servings,
+//             ingredients
+//         }
+//         const data = await setJSON(`${API_URL}?key=${KEY}`, recipe);
+//         state.recipe = createRecipeObj(data);
+//         addBookmark(state.recipe)
+//     }
+//     catch (err) {
+//         throw err;
+//     }
+// }
 //key : 241a33d1-e499-4868-8ce0-fa6f3d72b827
