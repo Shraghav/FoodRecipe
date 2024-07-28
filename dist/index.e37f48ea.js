@@ -666,7 +666,7 @@ const recipeContainer = document.querySelector(".recipe");
     //2) Update recipeView
     (0, _recipieViewJsDefault.default).update(_modelJs.state.recipe);
     //3) Render bookmarks
-    (0, _bookmarkViewJsDefault.default).update(_modelJs.state.bookmarks);
+    (0, _bookmarkViewJsDefault.default).render(_modelJs.state.bookmarks);
 };
 /**
  * @param {*} newRecipe coming from addRecipeView Handler

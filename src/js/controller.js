@@ -98,7 +98,7 @@ const controlAddBookmark = () => {
   recipieView.update(model.state.recipe);
 
   //3) Render bookmarks
-  bookmarkView.update(model.state.bookmarks)
+  bookmarkView.render(model.state.bookmarks)
 }
 
 /**
