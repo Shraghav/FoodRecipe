@@ -104,36 +104,36 @@ const controlAddBookmark = () => {
 /**
  * @param {*} newRecipe coming from addRecipeView Handler
  */
-const controlAddRecipe = async(newRecipe) => {
-  try {
-    //spinner
-    addRecipeView.renderSpinner();
+// const controlAddRecipe = async(newRecipe) => {
+//   try {
+//     //spinner
+//     addRecipeView.renderSpinner();
 
-    //uploading new recipe data
-    await model.uploadRecipe(newRecipe);
+//     //uploading new recipe data
+//     await model.uploadRecipe(newRecipe);
 
-    //render recipe
-    recipieView.render(model.state.recipe);
+//     //render recipe
+//     recipieView.render(model.state.recipe);
 
-    //success message
-    addRecipeView.renderMessage();
+//     //success message
+//     addRecipeView.renderMessage();
 
-    //render bookmark view
-    bookmarkView.render(model.state.bookmarks);
+//     //render bookmark view
+//     bookmarkView.render(model.state.bookmarks);
 
-    //changeId in url
-    window.history.pushState(null, '', `#${model.state.recipe.id}`);
+//     //changeId in url
+//     window.history.pushState(null, '', `#${model.state.recipe.id}`);
 
-    //closing form
-    setTimeout(function () {
-      addRecipeView.toggleWindow()
-    },MODAL_CLOSE*1000)
-  }
-  catch (err) {
-    console.error("Error dude", err);
-    addRecipeView.renderError(err.message);
-  }
-}
+//     //closing form
+//     setTimeout(function () {
+//       addRecipeView.toggleWindow()
+//     },MODAL_CLOSE*1000)
+//   }
+//   catch (err) {
+//     console.error("Error dude", err);
+//     addRecipeView.renderError(err.message);
+//   }
+// }
 
 const controlBookmarks = () => {
   bookmarkView.render(model.state.bookmarks)
